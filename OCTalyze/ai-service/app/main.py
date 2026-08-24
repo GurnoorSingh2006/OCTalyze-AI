@@ -30,19 +30,32 @@ app.add_middleware(
 )
 
 @app.get("/")
-@app.get("/health")
-@app.get("/api/health")
-@app.get("/ping")
-def health_check():
+def root():
     return {
         "status": "UP",
         "service": "OCTalyze Engine",
-        "version": "1.0.0",
-        "production_model": engine.model_name,
-        "reported_accuracy": f"{engine.model_accuracy}%",
-        "has_weights_artifact": engine.has_weights_file,
-        "classes": CLASSES,
-        "message": "AI Inference engine is awake on Render"
+        "message": "AI Inference service is running"
+    }
+
+
+@app.get("/health")
+def health_check():
+    return {
+        "status": "UP"
+    }
+
+
+@app.get("/api/health")
+def api_health_check():
+    return {
+        "status": "UP"
+    }
+
+
+@app.get("/ping")
+def ping():
+    return {
+        "status": "UP"
     }
 
 @app.post("/predict")
