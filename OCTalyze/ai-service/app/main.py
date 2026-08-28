@@ -9,7 +9,7 @@ from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Dict, Any, List
-
+from fastapi.responses import Response
 from app.inference import engine, CLASSES, PRIORITY_MAP, DESCRIPTIONS
 from app.model_factory import get_model_catalog
 
@@ -35,6 +35,31 @@ def root():
         "status": "UP",
         "service": "OCTalyze Engine",
         "message": "AI Inference service is running"
+
+    }
+
+
+@app.get("/health")
+def health_check():
+    return {
+        "status": "UP"
+    }
+@app.head("/health")
+def health_head_check():
+    return Response(status_code=200)
+
+@app.get("/api/health")
+def api_health_check():
+    return {
+        "status": "UP"
+    }
+
+
+@app.get("/ping")
+def ping():
+    return {
+        "status": "UP"
+
     }
 
 
@@ -57,7 +82,6 @@ def ping():
     return {
         "status": "UP"
     }
-
 @app.post("/predict")
 async def predict_oct(file: UploadFile = File(...)):
     # Validate file type
