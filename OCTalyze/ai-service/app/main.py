@@ -70,6 +70,11 @@ def health_check():
     }
 
 
+@app.head("/health")
+def health_head_check():
+    return Response(status_code=200)
+
+
 @app.get("/api/health")
 def api_health_check():
     return {
